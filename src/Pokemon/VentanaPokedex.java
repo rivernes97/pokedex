@@ -53,6 +53,8 @@ public class VentanaPokedex extends javax.swing.JFrame {
         Pokemon p = listaPokemons.get(String.valueOf(contador+1));
         if (p != null){
             jLabel1.setText(p.nombre);
+            jLabel5.setText(p.peso);
+            jLabel4.setText(p.altura);
         }
         else {
             jLabel1.setText("NO HAY DATOS");
@@ -69,7 +71,7 @@ public class VentanaPokedex extends javax.swing.JFrame {
         //conexion a la base de datos//////////////////
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1/test","root","root");
+            conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1/pokemon","root","root");
             estado = conexion.createStatement();
             resultadoConsulta = estado.executeQuery("Select * from pokemon");
             //cargo el resultado de la query en mi hashmap
@@ -79,6 +81,8 @@ public class VentanaPokedex extends javax.swing.JFrame {
                 p.generation_id = resultadoConsulta.getInt(5);
                 p.evolution_chain_id = resultadoConsulta.getInt(6);
                 p.species = resultadoConsulta.getString(12);
+                p.peso = resultadoConsulta.getString(11);
+                p.altura=resultadoConsulta.getString(10);
                 listaPokemons.put(resultadoConsulta.getString(1), p);
             }
         }
@@ -103,29 +107,38 @@ public class VentanaPokedex extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setText("izquierda");
+        jButton1.setContentAreaFilled(false);
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jButton1MousePressed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 430, 50, 20));
 
-        jButton2.setText("derecha");
+        jButton2.setContentAreaFilled(false);
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jButton2MousePressed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, -1, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 430, 50, 20));
 
+        jLabel1.setFont(new java.awt.Font("High Tower Text", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 200, 41));
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 230, 230));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 450, 120, 50));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 150, 200, 170));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pokemon/Imagenes/pokedex1.png"))); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(464, 240, 80, 20));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(564, 240, 80, 20));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -185,5 +198,8 @@ public class VentanaPokedex extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     // End of variables declaration//GEN-END:variables
 }
