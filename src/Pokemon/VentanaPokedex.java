@@ -20,13 +20,15 @@ import javax.swing.ImageIcon;
 
 /**
  *
- * @author jorgecisneros
+ * @author Ernesto De Vicente
  */
 public class VentanaPokedex extends javax.swing.JFrame {
 
     BufferedImage plantilla = null;
     private int contador = 0;
+     private int contadorEvolucion = 0;
     private int ancho = 200, alto = 200;
+     private int ancho1 = 100, alto2 = 100;
     int total_pokemons = 0;
     // conectamos a la base de datos
 
@@ -42,22 +44,32 @@ public class VentanaPokedex extends javax.swing.JFrame {
     /**
      * Creates new form VentanaPokedex
      */
+    
     private ImageIcon devuelveElPokemonQueEstaEnLaPosicion (int posicion){
         int columna = posicion / 31;
         int fila = posicion % 31;
         return ( new ImageIcon(plantilla.getSubimage(fila*96+1, columna*96+1, 96, 96)
                 .getScaledInstance(ancho, alto, Image.SCALE_DEFAULT))); 
     }
+      private ImageIcon devuelveEvolucion (int posicion){
+        int columna = posicion / 31;
+        int fila = posicion % 31;
+        return ( new ImageIcon(plantilla.getSubimage(fila*96+1, columna*96+1, 96, 96)
+                .getScaledInstance(ancho1, alto2, Image.SCALE_DEFAULT))); 
+    }
     
     private void escribeDatos(){
         Pokemon p = listaPokemons.get(String.valueOf(contador+1));
         if (p != null){
             jLabel1.setText(p.nombre);
-            jLabel5.setText(p.peso);
-            jLabel4.setText(p.altura);
+            jLabel10.setText("Peso = " + p.peso);
+            jLabel4.setText("Altura = " + p.altura);
             jLabel6.setText(p.numero);
-            jLabel7.setText(p.experiencia);
-            jLabel8.setText(p.felicidad);
+            jLabel7.setText( "Experiencia = " + p.experiencia);
+            jLabel8.setText("Generacion = " + p.generation_id);
+            jLabel9.setText("Tipo = " + p.tipo);
+            jLabel5.setText("Habitat = " + p.habitat);
+            jLabel11.setText("Felicidad =" + p.felicidad);
             
         }
         else {
@@ -84,12 +96,13 @@ public class VentanaPokedex extends javax.swing.JFrame {
                 p.nombre = resultadoConsulta.getString(2);
                 p.generation_id = resultadoConsulta.getInt(5);
                 p.evolution_chain_id = resultadoConsulta.getInt(6);
-                p.species = resultadoConsulta.getString(12);
+                p.tipo = resultadoConsulta.getString(12);
                 p.peso = resultadoConsulta.getString(11);
                 p.altura=resultadoConsulta.getString(10);
                 p.numero=resultadoConsulta.getString(1);
                 p.experiencia=resultadoConsulta.getString(18);
                 p.felicidad=resultadoConsulta.getString(19);
+                p.habitat=resultadoConsulta.getString(15);
                 
                 listaPokemons.put(resultadoConsulta.getString(1), p);
             }
@@ -99,6 +112,7 @@ public class VentanaPokedex extends javax.swing.JFrame {
         total_pokemons = listaPokemons.size();
         //////////////////////////////////////////////
         jLabel2.setIcon(devuelveElPokemonQueEstaEnLaPosicion(0));
+        jLabel12.setIcon(devuelveEvolucion(1));
         escribeDatos();
     }
 
@@ -117,10 +131,14 @@ public class VentanaPokedex extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -142,43 +160,75 @@ public class VentanaPokedex extends javax.swing.JFrame {
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 430, 50, 20));
 
         jLabel1.setFont(new java.awt.Font("High Tower Text", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 450, 120, 50));
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, 200, 170));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 200, 160));
 
-        jLabel4.setFont(new java.awt.Font("High Tower Text", 1, 18)); // NOI18N
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 240, 80, 20));
+        jLabel4.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 0));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 180, 90, 20));
 
-        jLabel5.setFont(new java.awt.Font("High Tower Text", 1, 18)); // NOI18N
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 240, 80, 20));
+        jLabel5.setFont(new java.awt.Font("Verdana", 1, 10)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 0));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 220, 130, 20));
 
-        jLabel6.setFont(new java.awt.Font("HP Simplified", 1, 32)); // NOI18N
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 60, 50));
+        jLabel12.setBackground(new java.awt.Color(255, 51, 51));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 90, 70));
 
-        jLabel7.setFont(new java.awt.Font("Verdana Pro SemiBold", 1, 14)); // NOI18N
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 190, -1, -1));
+        jLabel6.setFont(new java.awt.Font("Verdana", 1, 32)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 80, 50));
 
-        jLabel8.setFont(new java.awt.Font("Verdana Pro Black", 1, 14)); // NOI18N
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 190, -1, -1));
+        jLabel7.setFont(new java.awt.Font("Verdana Pro SemiBold", 1, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 51));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 180, 130, 20));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pokemon/Imagenes/pokedex1.png"))); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Verdana Pro Black", 1, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 51));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 200, 130, 20));
+
+        jLabel9.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel9.setText("jLabel9");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 240, 100, -1));
+
+        jLabel10.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel10.setText("jLabel10");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 230, 90, 20));
+
+        jLabel3.setBackground(new java.awt.Color(204, 51, 255));
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pokemon/Imagenes/pokedex.png"))); // NOI18N
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        jLabel11.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel11.setText("jLabel10");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 200, 120, 20));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
         contador--;
+      contadorEvolucion--;
         if (contador < 0) {contador = 0;}
         //dibujaElPokemonQueEstaEnLaPosicion(contador);
         jLabel2.setIcon(devuelveElPokemonQueEstaEnLaPosicion(contador));  
+        jLabel12.setIcon(devuelveEvolucion(contadorEvolucion+1));
         escribeDatos();
+        
     }//GEN-LAST:event_jButton1MousePressed
 
     private void jButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MousePressed
         contador++;
-        if (contador > total_pokemons) {contador = 0;}
+        contadorEvolucion++;
+        if (contador > total_pokemons) {contador = 0; }
         jLabel2.setIcon(devuelveElPokemonQueEstaEnLaPosicion(contador));
+         jLabel12.setIcon(devuelveEvolucion(contadorEvolucion +1));
         escribeDatos();
     }//GEN-LAST:event_jButton2MousePressed
 
@@ -221,6 +271,9 @@ public class VentanaPokedex extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -228,5 +281,6 @@ public class VentanaPokedex extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     // End of variables declaration//GEN-END:variables
 }
